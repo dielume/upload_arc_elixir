@@ -20,7 +20,7 @@ defmodule Upload.Mixfile do
   def application do
     [
       mod: {Upload.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :arc_ecto]
     ]
   end
 

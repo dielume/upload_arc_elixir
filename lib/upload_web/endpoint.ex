@@ -27,7 +27,8 @@ defmodule UploadWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Poison,
+    length: 8_000_000
 
   plug Plug.MethodOverride
   plug Plug.Head

@@ -3,7 +3,7 @@ defmodule UploadWeb.UserController do
 
   alias Upload.Accounts
   alias Upload.Accounts.User
-  alias Upload.Accounts.Attachment
+  alias Ecto.Changeset
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -43,15 +43,20 @@ defmodule UploadWeb.UserController do
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Accounts.get_user!(id)
-    attachment = Accounts.get_attachment!(user)
-    upload_params = Map.merge(user_params, %{"user_id" => id})
     case Accounts.update_user(user, user_params) do
       {:ok, user} ->
-        Accounts.update_attachment(attachment, user_params)
-        conn
-        |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: user_path(conn, :show, user))
+        case Accounts.update_attachment(user.attachments, user_params)  do
+          {:ok, attachment} ->
+            conn
+            |> put_flash(:info, "User updated successfully.")
+            |> redirect(to: user_path(conn, :show, user))
+          {:error, %Ecto.Changeset{} = changeset} ->
+            IO.inspect  changeset
+            render(conn, "edit.html", user: user, changeset: changeset)
+        end
+
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect changeset
         render(conn, "edit.html", user: user, changeset: changeset)
     end
   end

@@ -1,10 +1,9 @@
 defmodule UploadWeb.ImageUploader do
   use Arc.Definition
   use Arc.Ecto.Definition
-  # Include ecto support (requires package arc_ecto installed):
-  # use Arc.Ecto.Definition
 
-  @versions [:thumb, :original]
+
+  @versions [:thumb]
   @extension_whitelist ~w(.jpg .jpeg .gif .png)
 
 
@@ -18,6 +17,7 @@ defmodule UploadWeb.ImageUploader do
 
   # Whitelist file extensions:
   def validate({file, _}) do
+    IO.inspect file
     file_extension = file.file_name |> Path.extname |> String.downcase
     Enum.member?(@extension_whitelist, file_extension)
   end

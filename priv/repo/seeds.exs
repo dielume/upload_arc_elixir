@@ -17,6 +17,18 @@ alias Upload.Repo
 import Ecto.Changeset
 import Ecto.Query
 import Ecto
+user = Repo.get(User, 1)
+attrs = %{"image" => %Plug.Upload{content_type: "application/pdf",
+   filename: "IGP Impresión 3d mitad_a y mitad_b.pdf",
+   path: "/var/folders/z2/51h_j79s4l36s68fyn849c5c0000gn/T//plug-1517/multipart-1517325541-159760741062966-4"},
+  "name" => "lumecito"}
+user |> User.changeset(attrs) |> Attachment.changeset(attrs)
+|> Repo.update()
+
+
+
+
+
 
 id = 8
 user = Accounts.get_user!(id)

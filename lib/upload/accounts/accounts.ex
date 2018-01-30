@@ -64,7 +64,7 @@ defmodule Upload.Accounts do
     |> Repo.insert()
   end
 
-  def update_attachment(%Attachment{} = attachment, attrs) do
+  def update_attachment([%Attachment{} = attachment], attrs) do
     attachment
     |> Attachment.changeset(attrs)
     |> Repo.update()
